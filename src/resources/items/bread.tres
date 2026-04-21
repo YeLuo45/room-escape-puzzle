@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/Item.gd" id="1_bread"]
+
+[resource]
+script = ExtResource("1_bread")
+id = "bread"
+name = "面包"
+description = "一块新鲜的面包。"
+color = Color(0.9, 0.7, 0.4, 1)

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/Item.gd" id="1_coin"]
+
+[resource]
+script = ExtResource("1_coin")
+id = "coin"
+name = "硬币"
+description = "一枚古老的硬币。"
+color = Color(0.85, 0.75, 0.5, 1)

@@ -1,0 +1,217 @@
+[gd_scene load_steps=8 format=3 uid="uid://level5"]
+
+[ext_resource type="FontFile" uid="uid://font_default" path="res://src/assets/fonts/default.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.4, 0.35, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pedestal]
+bg_color = Color(0.5, 0.45, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_painting"]
+bg_color = Color(0.6, 0.55, 0.5, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.25, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_door"]
+bg_color = Color(0.35, 0.25, 0.2, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.15, 0.1, 0.05, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_clock"]
+bg_color = Color(0.45, 0.4, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keypad"]
+bg_color = Color(0.2, 0.2, 0.25, 1)
+
+[node name="Level5_Lobby" type="Node2D"]
+
+[node name="Panel" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.4, 0.35, 0.3, 1)
+
+[node name="LevelTitle" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 36
+text = "关卡5: 出口大厅"
+
+[node name="HintBtn" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "提示(3)"
+
+[node name="Pedestal" type="Panel" parent="."]
+offset_left = 150.0
+offset_top = 400.0
+offset_right = 350.0
+offset_bottom = 600.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_pedestal")
+tooltip_text = "基座(需要硬币启动)"
+
+[node name="PedestalLabel" type="Label" parent="Pedestal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "基座"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Painting" type="Panel" parent="."]
+offset_left = 450.0
+offset_top = 150.0
+offset_right = 700.0
+offset_bottom = 400.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_painting")
+tooltip_text = "挂画"
+
+[node name="PaintingLabel" type="Label" parent="Painting"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "🖼️ 挂画"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Clock" type="Panel" parent="."]
+offset_left = 750.0
+offset_top = 150.0
+offset_right = 950.0
+offset_bottom = 350.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_clock")
+tooltip_text = "钟"
+
+[node name="ClockLabel" type="Label" parent="Clock"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "🕐 钟"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Keypad" type="Panel" parent="."]
+offset_left = 750.0
+offset_top = 400.0
+offset_right = 950.0
+offset_bottom = 580.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_keypad")
+tooltip_text = "密码键盘"
+
+[node name="KeypadLabel" type="Label" parent="Keypad"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "🔢 密码键盘"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeypadInput" type="LineEdit" parent="."]
+visible = false
+offset_left = 760.0
+offset_top = 410.0
+offset_right = 940.0
+offset_bottom = 450.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+placeholder_text = "密码"
+alignment = 1
+max_length = 6
+
+[node name="KeypadSubmit" type="Button" parent="."]
+visible = false
+offset_left = 820.0
+offset_top = 460.0
+offset_right = 880.0
+offset_bottom = 500.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "确定"
+
+[node name="KeypadCancel" type="Button" parent="."]
+visible = false
+offset_left = 890.0
+offset_top = 460.0
+offset_right = 940.0
+offset_bottom = 500.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "取消"
+
+[node name="ExitDoor" type="Panel" parent="."]
+offset_left = 1050.0
+offset_top = 150.0
+offset_right = 1220.0
+offset_bottom = 550.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_door")
+tooltip_text = "出口大门"
+
+[node name="ExitDoorLabel" type="Label" parent="ExitDoor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 28
+text = "🚪 出口"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryBar" type="CanvasLayer" parent="."]
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HintBtn" to="." method="_on_hint_pressed"]
+[connection signal="pressed" from="Pedestal" to="." method="_on_pedestal_pressed"]
+[connection signal="pressed" from="Painting" to="." method="_on_painting_pressed"]
+[connection signal="pressed" from="Clock" to="." method="_on_clock_pressed"]
+[connection signal="pressed" from="Keypad" to="." method="_on_keypad_pressed"]
+[connection signal="pressed" from="KeypadSubmit" to="." method="_on_keypad_submit_pressed"]
+[connection signal="pressed" from="KeypadCancel" to="." method="_on_keypad_cancel_pressed"]
+[connection signal="pressed" from="ExitDoor" to="." method="_on_exit_door_pressed"]

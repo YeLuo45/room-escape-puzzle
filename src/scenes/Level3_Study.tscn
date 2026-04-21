@@ -1,0 +1,271 @@
+[gd_scene load_steps=7 format=3 uid="uid://level3"]
+
+[ext_resource type="FontFile" uid="uid://font_default" path="res://src/assets/fonts/default.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.3, 0.25, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk"]
+bg_color = Color(0.45, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shelf"]
+bg_color = Color(0.35, 0.3, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.15, 0.1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diary]
+bg_color = Color(0.4, 0.3, 0.6, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_diary_open"]
+bg_color = Color(0.9, 0.85, 0.7, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit]
+bg_color = Color(0.5, 0.35, 0.2, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.2, 0.1, 1)
+
+[node name="Level3_Study" type="Node2D"]
+
+[node name="Panel" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="LevelTitle" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 36
+text = "关卡3: 书房"
+
+[node name="HintBtn" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "提示(3)"
+
+[node name="Desk" type="Panel" parent="."]
+offset_left = 100.0
+offset_top = 350.0
+offset_right = 550.0
+offset_bottom = 600.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_desk")
+tooltip_text = "书桌"
+
+[node name="DeskLabel" type="Label" parent="Desk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "书桌"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shelf" type="Panel" parent="."]
+offset_left = 650.0
+offset_top = 100.0
+offset_right = 950.0
+offset_bottom = 400.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_shelf")
+tooltip_text = "书架"
+
+[node name="ShelfLabel" type="Label" parent="Shelf"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "书架"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Diary" type="Panel" parent="."]
+visible = false
+offset_left = 180.0
+offset_top = 400.0
+offset_right = 280.0
+offset_bottom = 520.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_diary")
+tooltip_text = "密码日记"
+
+[node name="DiaryLabel" type="Label" parent="Diary"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "📔 日记"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiaryOpen" type="Panel" parent="."]
+visible = false
+offset_left = 150.0
+offset_top = 200.0
+offset_right = 500.0
+offset_bottom = 500.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_diary_open")
+tooltip_text = "日记内容"
+
+[node name="DiaryTitle" type="Label" parent="DiaryOpen"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "📔 我的日记"
+horizontal_alignment = 1
+
+[node name="DiaryContent" type="Label" parent="DiaryOpen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 60.0
+offset_right = -20.0
+offset_bottom = -20.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "今天是值得纪念的一天。\n\n我记得那天是我的生日，\n全家人一起吃了蛋糕。\n\n生日是 12月25日... \n\n不对，好像是 06月18日？"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PasswordInput" type="LineEdit" parent="DiaryOpen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 80.0
+offset_right = 60.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 32
+placeholder_text = "密码"
+alignment = 1
+max_length = 6
+
+[node name="UnlockBtn" type="Button" parent="DiaryOpen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 130.0
+offset_right = 50.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "解锁"
+
+[node name="CloseDiaryBtn" type="Button" parent="DiaryOpen"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "X"
+
+[node name="Coin" type="Panel" parent="."]
+visible = false
+offset_left = 750.0
+offset_top = 150.0
+offset_right = 790.0
+offset_bottom = 190.0
+tooltip_text = "硬币"
+
+[node name="CoinLabel" type="Label" parent="Coin"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "🪙"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitDoor" type="Panel" parent="."]
+offset_left = 1000.0
+offset_top = 150.0
+offset_right = 1180.0
+offset_bottom = 550.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit")
+tooltip_text = "出口门"
+
+[node name="ExitDoorLabel" type="Label" parent="ExitDoor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "🚪 出口"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryBar" type="CanvasLayer" parent="."]
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HintBtn" to="." method="_on_hint_pressed"]
+[connection signal="pressed" from="Desk" to="." method="_on_desk_pressed"]
+[connection signal="pressed" from="Shelf" to="." method="_on_shelf_pressed"]
+[connection signal="pressed" from="Diary" to="." method="_on_diary_pressed"]
+[connection signal="pressed" from="DiaryOpen/UnlockBtn" to="." method="_on_unlock_pressed"]
+[connection signal="pressed" from="DiaryOpen/CloseDiaryBtn" to="." method="_on_close_diary_pressed"]
+[connection signal="pressed" from="Coin" to="." method="_on_coin_pressed"]
+[connection signal="pressed" from="ExitDoor" to="." method="_on_exit_door_pressed"]

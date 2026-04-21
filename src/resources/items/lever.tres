@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/Item.gd" id="1_lever"]
+
+[resource]
+script = ExtResource("1_lever")
+id = "lever"
+name = "控制杆"
+description = "一个可以拉动的控制杆。"
+color = Color(0.5, 0.45, 0.4, 1)

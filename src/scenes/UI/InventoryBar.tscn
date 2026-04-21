@@ -1,0 +1,128 @@
+[gd_scene load_steps=5 format=3 uid="uid://inventorybar"]
+
+[ext_resource type="Script" path="res://src/scenes/UI/InventoryBar.gd" id="1_inv"]
+[ext_resource type="FontFile" uid="uid://font_default" path="res://src/assets/fonts/default.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.15, 0.15, 0.2, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_selected"]
+bg_color = Color(0.2, 0.35, 0.5, 0.8)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.7, 1.0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0, 0.0, 0.0, 0.7)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="InventoryBar" type="CanvasLayer"]
+script = ExtResource("1_inv")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -110.0
+offset_right = 300.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bg")
+
+[node name="Grid" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = -40.0
+offset_right = 288.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Slot0" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="Slot1" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="Slot2" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="Slot3" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="Slot4" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="Slot5" type="Button" parent="Panel/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_selected")
+
+[node name="ItemLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -115.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1

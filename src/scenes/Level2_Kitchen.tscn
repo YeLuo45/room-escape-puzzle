@@ -1,0 +1,227 @@
+[gd_scene load_steps=9 format=3 uid="uid://level2"]
+
+[ext_resource type="FontFile" uid="uid://font_default" path="res://src/assets/fonts/default.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.45, 0.4, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_counter"]
+bg_color = Color(0.5, 0.45, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fridge"]
+bg_color = Color(0.7, 0.75, 0.8, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.55, 0.6, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knife"]
+bg_color = Color(0.6, 0.6, 0.65, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bread"]
+bg_color = Color(0.9, 0.7, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sandwich"]
+bg_color = Color(0.85, 0.65, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cabinet"]
+bg_color = Color(0.4, 0.35, 0.3, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.2, 0.15, 1)
+
+[node name="Level2_Kitchen" type="Node2D"]
+
+[node name="Panel" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.45, 0.4, 0.35, 1)
+
+[node name="LevelTitle" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 36
+text = "关卡2: 厨房"
+
+[node name="HintBtn" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "提示(3)"
+
+[node name="Counter" type="Panel" parent="."]
+offset_left = 100.0
+offset_top = 400.0
+offset_right = 600.0
+offset_bottom = 600.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_counter")
+tooltip_text = "料理台"
+
+[node name="CounterLabel" type="Label" parent="Counter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "料理台"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fridge" type="Panel" parent="."]
+offset_left = 700.0
+offset_top = 150.0
+offset_right = 950.0
+offset_bottom = 550.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_fridge")
+tooltip_text = "冰箱"
+
+[node name="FridgeLabel" type="Label" parent="Fridge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 28
+text = "冰箱"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cabinet" type="Panel" parent="."]
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 350.0
+offset_bottom = 300.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cabinet")
+tooltip_text = "橱柜"
+
+[node name="CabinetLabel" type="Label" parent="Cabinet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "橱柜"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Knife" type="Panel" parent="."]
+visible = false
+offset_left = 200.0
+offset_top = 450.0
+offset_right = 240.0
+offset_bottom = 530.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_knife")
+tooltip_text = "小刀"
+
+[node name="KnifeLabel" type="Label" parent="Knife"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "小刀"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bread" type="Panel" parent="."]
+visible = false
+offset_left = 300.0
+offset_top = 450.0
+offset_right = 370.0
+offset_bottom = 510.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bread")
+tooltip_text = "面包"
+
+[node name="BreadLabel" type="Label" parent="Bread"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "面包"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sandwich" type="Panel" parent="."]
+visible = false
+offset_left = 480.0
+offset_top = 450.0
+offset_right = 580.0
+offset_bottom = 510.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_sandwich")
+tooltip_text = "三明治"
+
+[node name="SandwichLabel" type="Label" parent="Sandwich"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "🥪 三明治"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitDoor" type="Panel" parent="."]
+offset_left = 1000.0
+offset_top = 150.0
+offset_right = 1180.0
+offset_bottom = 550.0
+tooltip_text = "出口门"
+
+[node name="ExitDoorLabel" type="Label" parent="ExitDoor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "🚪 出口"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryBar" type="CanvasLayer" parent="."]
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HintBtn" to="." method="_on_hint_pressed"]
+[connection signal="pressed" from="Fridge" to="." method="_on_fridge_pressed"]
+[connection signal="pressed" from="Cabinet" to="." method="_on_cabinet_pressed"]
+[connection signal="pressed" from="Knife" to="." method="_on_knife_pressed"]
+[connection signal="pressed" from="Bread" to="." method="_on_bread_pressed"]
+[connection signal="pressed" from="Sandwich" to="." method="_on_sandwich_pressed"]
+[connection signal="pressed" from="ExitDoor" to="." method="_on_exit_door_pressed"]

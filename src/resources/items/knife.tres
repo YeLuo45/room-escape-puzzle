@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/Item.gd" id="1_knife"]
+
+[resource]
+script = ExtResource("1_knife")
+id = "knife"
+name = "小刀"
+description = "一把锋利的小刀，可以切开某些东西。"
+color = Color(0.6, 0.6, 0.65, 1)

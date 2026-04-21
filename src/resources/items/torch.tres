@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/Item.gd" id="1_torch"]
+
+[resource]
+script = ExtResource("1_torch")
+id = "torch"
+name = "火把"
+description = "一个点燃的火把，可以照亮黑暗的地方。"
+color = Color(1.0, 0.5, 0.1, 1)
