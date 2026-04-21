@@ -1,0 +1,20 @@
+# Godot 4.x specific
+.godot/
+bin/
+*.pck
+*.exe
+export_presets.cfg
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+*.import
+*.tscn.import
+*.tres.import
+
+# Build artifacts
+build/
+*.zip
+*.tar.gz

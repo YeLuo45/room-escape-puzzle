@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            artifact_name: linux_x86_64
+            godot_platform: linux.x86_64
+          - os: windows-2022
+            artifact_name: windows_x86_64
+            godot_platform: win64.exe
+          - os: macos-14
+            artifact_name: macos_arm64
+            godot_platform: macos.universal.zip
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: heroici/godot-action@v0.2
+        with:
+          version: 4.2.2
+          platform: ${{ matrix.godot_platform }}
+
+      - name: Build Export
+        run: |
+          godot --headless --export-release "${{ matrix.godot_platform }}" bin/${{ matrix.artifact_name }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: bin/${{ matrix.artifact_name }}
