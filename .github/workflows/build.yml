@@ -16,26 +16,30 @@ jobs:
           - os: ubuntu-22.04
             artifact_name: linux_x86_64
             godot_platform: linux.x86_64
+            godot_archive: Godot_v4.2.2-stable_linux.x86_64.zip
           - os: windows-2022
             artifact_name: windows_x86_64
             godot_platform: win64.exe
+            godot_archive: Godot_v4.2.2-stable_win64.exe.zip
           - os: macos-14
             artifact_name: macos_arm64
             godot_platform: macos.universal.zip
+            godot_archive: Godot_v4.2.2-stable_macos.universal.zip
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Godot
-        uses: heroici/godot-action@v0.2
-        with:
-          version: 4.2.2
-          platform: ${{ matrix.godot_platform }}
+      - name: Download Godot
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/${{ matrix.godot_archive }}
+          unzip -o -q ${{ matrix.godot_archive }}
+          chmod +x Godot_v4.2.2-stable_${{ matrix.godot_platform }}
 
       - name: Build Export
         run: |
-          godot --headless --export-release "${{ matrix.godot_platform }}" bin/${{ matrix.artifact_name }}
+          mkdir -p bin
+          ./Godot_v4.2.2-stable_${{ matrix.godot_platform }} --headless --export-release "${{ matrix.godot_platform }}" bin/${{ matrix.artifact_name }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -49,16 +53,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Godot
-        uses: heroici/godot-action@v0.2
-        with:
-          version: 4.2.2
-          platform: web
+      - name: Download Godot
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip
+          unzip -o -q Godot_v4.2.2-stable_linux.x86_64.zip
+          chmod +x Godot_v4.2.2-stable_linux.x86_64
+
+      - name: Download Export Templates
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates/4.2.2.stable/
+          unzip -o -q Godot_v4.2.2-stable_export_templates.tpz -d /tmp/templates
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.2.2.stable/
 
       - name: Build Web Export
         run: |
           mkdir -p bin/web
-          godot --headless --export-release "Web" bin/web/index.html
+          ./Godot_v4.2.2-stable_linux.x86_64 --headless --export-release "Web" bin/web/index.html
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
