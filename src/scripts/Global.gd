@@ -10,20 +10,20 @@ const LEVEL_NAMES = {
 }
 
 var current_level: String = "Level1_Bedroom"
-var inventory: Array[Item] = []
+var inventory: Array = []
 var hints_used: int = 0
 var hints_per_level: int = 3
 var hints_remaining: int = 3
-var selected_item: Item = null
+var selected_item = null
 var is_combine_mode: bool = false
-var combine_first_item: Item = null
+var combine_first_item = null
 var audio_enabled: bool = true
 var music_enabled: bool = true
 
 signal level_changed(level_id: String)
 signal inventory_updated()
 signal hint_used(remaining: int)
-signal item_selected(item: Item)
+signal item_selected(item)
 signal game_solved()
 
 func _ready():
@@ -45,17 +45,17 @@ func next_level():
 	else:
 		game_solved.emit()
 
-func add_item(item: Item):
+func add_item(item):
 	if inventory.size() < 6 and not inventory.has(item):
 		inventory.append(item)
 		inventory_updated.emit()
 
-func remove_item(item: Item):
+func remove_item(item):
 	if inventory.has(item):
 		inventory.erase(item)
 		inventory_updated.emit()
 
-func select_item(item: Item):
+func select_item(item):
 	if selected_item == item:
 		deselect_item()
 		return
@@ -68,7 +68,7 @@ func deselect_item():
 	combine_first_item = null
 	item_selected.emit(null)
 
-func use_hint():
+func use_hint() -> bool:
 	if hints_remaining > 0:
 		hints_remaining -= 1
 		hints_used += 1
