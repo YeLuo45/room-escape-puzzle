@@ -42,3 +42,58 @@ jobs:
         with:
           name: ${{ matrix.artifact_name }}
           path: bin/${{ matrix.artifact_name }}
+
+  build-web:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: heroici/godot-action@v0.2
+        with:
+          version: 4.2.2
+          platform: web
+
+      - name: Build Web Export
+        run: |
+          mkdir -p bin/web
+          godot --headless --export-release "Web" bin/web/index.html
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web_build
+          path: bin/web/
+
+  deploy-gh-pages:
+    needs: build-web
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Web Build
+        uses: actions/download-artifact@v4
+        with:
+          name: web_build
+          path: dist/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
