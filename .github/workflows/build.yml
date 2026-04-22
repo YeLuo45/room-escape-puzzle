@@ -32,7 +32,7 @@ jobs:
 
       - name: Download Godot
         run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/${{ matrix.godot_archive }}
+          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/${{ matrix.godot_archive }} -o ${{ matrix.godot_archive }}
           unzip -o -q ${{ matrix.godot_archive }}
           chmod +x Godot_v4.2.2-stable_${{ matrix.godot_platform }}
 
@@ -55,13 +55,13 @@ jobs:
 
       - name: Download Godot
         run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip
+          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip -o Godot_v4.2.2-stable_linux.x86_64.zip
           unzip -o -q Godot_v4.2.2-stable_linux.x86_64.zip
           chmod +x Godot_v4.2.2-stable_linux.x86_64
 
       - name: Download Export Templates
         run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz
+          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz -o Godot_v4.2.2-stable_export_templates.tpz
           mkdir -p ~/.local/share/godot/export_templates/4.2.2.stable/
           unzip -o -q Godot_v4.2.2-stable_export_templates.tpz -d /tmp/templates
           mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.2.2.stable/
