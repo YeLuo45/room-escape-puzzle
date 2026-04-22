@@ -1,8 +1,7 @@
 extends Node2D
 
-# Solution: Pull lever3, lever1, lever2 (order matters!)
 var lever_states: Array[bool] = [false, false, false]
-var correct_sequence: Array[int] = [2, 0, 1]  # lever3, lever1, lever2 (0-indexed)
+var correct_sequence: Array[int] = [2, 0, 1]
 var current_step: int = 0
 var torch_collected: bool = false
 var chest_opened: bool = false
@@ -46,21 +45,18 @@ func _on_lever2_pressed():
 func _on_lever3_pressed():
 	_toggle_lever(2, lever3_panel, "杆 #3")
 
-func _toggle_lever(idx: int, panel: Panel, name: String):
+func _toggle_lever(idx: int, panel, name: String):
 	if not Global.has_item("torch"):
 		show_message("太黑了，看不清...")
 		return
-	
+
 	lever_states[idx] = not lever_states[idx]
-	
-	# Update visual
-	var style = preload("res://src/assets/sprites/leaver_on.tres") if lever_states[idx] else preload("res://src/assets/sprites/leaver_off.tres")
+
 	if lever_states[idx]:
 		show_message(name + " 已拉下！", 1.0)
 	else:
 		show_message(name + " 已复位！", 1.0)
-	
-	# Check sequence
+
 	if lever_states[idx]:
 		if idx == correct_sequence[current_step]:
 			current_step += 1
@@ -69,7 +65,6 @@ func _toggle_lever(idx: int, panel: Panel, name: String):
 				chest_opened = true
 				$Chest.tooltip_text = "箱子(已解锁)"
 		else:
-			# Wrong order, reset
 			show_message("顺序不对，所有杆都复位了！")
 			_reset_levers()
 			current_step = 0
@@ -82,7 +77,7 @@ func _on_chest_pressed():
 	if chest_opened:
 		if not torch_collected:
 			torch_collected = true
-			var torch_item = preload("res://src/resources/items/torch.tres")
+			var torch_item = load("res://src/resources/items/torch.tres")
 			Global.add_item(torch_item)
 			show_message("获得：火把！地下室亮起来了！")
 			dark_overlay.visible = false
@@ -129,4 +124,4 @@ func complete_level():
 	show_message("恭喜通关！", 2.0)
 	await get_tree().create_timer(2.0).timeout
 	Global.next_level()
-	get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+	get_tree().reload_current_scene()

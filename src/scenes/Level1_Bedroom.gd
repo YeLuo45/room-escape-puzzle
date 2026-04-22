@@ -19,10 +19,7 @@ var current_hint_idx = 0
 var msg_timer: float = 0.0
 
 func _ready():
-	level_id = "Level1_Bedroom"
-	level_name = "卧室"
 	hint_btn.text = "提示(" + str(Global.hints_remaining) + ")"
-	
 	Global.inventory_updated.connect(_on_inventory_updated)
 
 func _process(delta):
@@ -48,7 +45,7 @@ func _on_key_pressed():
 	if not has_key:
 		has_key = true
 		key_panel.visible = false
-		var key_item = preload("res://src/resources/items/key.tres")
+		var key_item = load("res://src/resources/items/key.tres")
 		Global.add_item(key_item)
 		show_message("获得：钥匙")
 
@@ -59,7 +56,6 @@ func _on_door_pressed():
 		complete_level()
 	else:
 		show_message("门锁着，需要找到钥匙")
-		# Shake effect
 		var tween = create_tween()
 		var orig = door_panel.position
 		for i in range(3):
@@ -75,10 +71,10 @@ func _on_hint_pressed():
 		hint_btn.text = "提示(" + str(Global.hints_remaining) + ")"
 
 func _on_inventory_updated():
-	pass # Debug: print("Inventory: ", Global.inventory)
+	pass
 
 func complete_level():
 	show_message("恭喜通关！", 2.0)
 	await get_tree().create_timer(2.0).timeout
 	Global.next_level()
-	get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+	get_tree().reload_current_scene()

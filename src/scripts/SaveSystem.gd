@@ -2,44 +2,51 @@ extends Node
 
 const SAVE_PATH = "user://save_game.tres"
 
-class SaveData extends Resource:
-	var current_level: String
-	var inventory_ids: Array[String]
-	var hints_used: int
-	var audio_enabled: bool
-	var music_enabled: bool
-
 func save_game():
-	var data = SaveData.new()
-	data.current_level = Global.current_level
-	data.inventory_ids = []
+	var data = {
+		"current_level": Global.current_level,
+		"inventory_ids": [],
+		"hints_used": Global.hints_used,
+		"audio_enabled": Global.audio_enabled,
+		"music_enabled": Global.music_enabled
+	}
 	for item in Global.inventory:
-		if item and item.id:
-			data.inventory_ids.append(item.id)
-	data.hints_used = Global.hints_used
-	data.audio_enabled = Global.audio_enabled
-	data.music_enabled = Global.music_enabled
+		if item and "id" in item:
+			data["inventory_ids"].append(item.id)
 	
-	var err = ResourceSaver.save(data, SAVE_PATH)
-	if err != OK:
-		print("Save error: ", err)
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if save_file:
+		save_file.store_line(JSON.stringify(data))
+		save_file.close()
 
 func load_game() -> bool:
 	if not FileAccess.file_exists(SAVE_PATH):
 		return false
 	
-	var data = ResourceLoader.load(SAVE_PATH)
-	if data == null or not data is SaveData:
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if not save_file:
 		return false
 	
-	Global.current_level = data.current_level
-	Global.hints_used = data.hints_used
-	Global.audio_enabled = data.audio_enabled
-	Global.music_enabled = data.music_enabled
+	var json_str = save_file.get_line()
+	save_file.close()
 	
-	# Rebuild inventory from IDs (items need to be re-fetched from ItemDB)
+	var json = JSON.new()
+	if json.parse(json_str) != OK:
+		return false
+	
+	var data = json.data
+	if typeof(data) != TYPE_DICTIONARY:
+		return false
+	
+	Global.current_level = data.get("current_level", "Level1_Bedroom")
+	Global.hints_used = data.get("hints_used", 0)
+	Global.audio_enabled = data.get("audio_enabled", true)
+	Global.music_enabled = data.get("music_enabled", true)
+	
+	# Rebuild inventory from IDs
 	Global.inventory.clear()
-	for item_id in data.inventory_ids:
+	var inventory_ids = data.get("inventory_ids", [])
+	for item_id in inventory_ids:
 		var item = ItemDB.get_item(item_id)
 		if item:
 			Global.inventory.append(item)

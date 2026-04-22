@@ -12,15 +12,12 @@ func _ready():
 	music_check.button_pressed = Global.music_enabled
 
 func _on_start_pressed():
-	Global.reset_level_state()
-	Global.inventory.clear()
-	Global.load_level("Level1_Bedroom")
+	Global.reset_game()
 	get_tree().change_scene_to_file("res://src/scenes/Level1_Bedroom.tscn")
 
 func _on_continue_pressed():
-	SaveSystem.load_game()
-	Global.reset_level_state()
-	get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+	if SaveSystem.load_game():
+		get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
 
 func _on_settings_pressed():
 	settings_panel.visible = true

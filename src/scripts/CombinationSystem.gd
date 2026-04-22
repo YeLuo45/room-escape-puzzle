@@ -12,11 +12,11 @@ static func get_recipe_key(id_a: String, id_b: String) -> String:
 	else:
 		return id_b + " + " + id_a
 
-func can_combine(item_a: Item, item_b: Item) -> bool:
+func can_combine(item_a, item_b) -> bool:
 	var key = get_recipe_key(item_a.id, item_b.id)
 	return recipes.has(key)
 
-func try_combine(item_a: Item, item_b: Item) -> Item:
+func try_combine(item_a, item_b):
 	var key = get_recipe_key(item_a.id, item_b.id)
 	if recipes.has(key):
 		return ItemDB.get_item(recipes[key])

@@ -69,7 +69,6 @@ func _on_unlock_pressed():
 		show_message("日记解锁成功！里面提到书架后面藏着什么...")
 	else:
 		show_message("密码错误！")
-		# Shake effect
 		var tween = create_tween()
 		var orig = password_input.position
 		for i in range(3):
@@ -79,7 +78,7 @@ func _on_unlock_pressed():
 
 func _on_coin_pressed():
 	coin_panel.visible = false
-	var coin_item = preload("res://src/resources/items/coin.tres")
+	var coin_item = load("res://src/resources/items/coin.tres")
 	Global.add_item(coin_item)
 	show_message("获得：硬币")
 
@@ -111,4 +110,4 @@ func complete_level():
 	show_message("恭喜通关！", 2.0)
 	await get_tree().create_timer(2.0).timeout
 	Global.next_level()
-	get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+	get_tree().reload_current_scene()

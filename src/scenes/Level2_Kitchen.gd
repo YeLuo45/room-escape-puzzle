@@ -47,7 +47,7 @@ func _on_fridge_pressed():
 	if not has_bread:
 		has_bread = true
 		bread_panel.visible = true
-		var bread_item = preload("res://src/resources/items/bread.tres")
+		var bread_item = load("res://src/resources/items/bread.tres")
 		Global.add_item(bread_item)
 		show_message("冰箱里有一块面包！你拿走了它。")
 	else:
@@ -57,12 +57,12 @@ func _on_knife_pressed():
 	if not has_knife:
 		has_knife = true
 		knife_panel.visible = false
-		var knife_item = preload("res://src/resources/items/knife.tres")
+		var knife_item = load("res://src/resources/items/knife.tres")
 		Global.add_item(knife_item)
 		show_message("获得：小刀")
 
 func _on_bread_pressed():
-	pass  # Bread goes to inventory when fridge is clicked
+	pass
 
 func _on_sandwich_pressed():
 	if has_sandwich and Global.has_item("sandwich"):
@@ -78,7 +78,6 @@ func _on_hint_pressed():
 		hint_btn.text = "提示(" + str(Global.hints_remaining) + ")"
 
 func _on_inventory_updated():
-	# Check if we have knife + bread -> can make sandwich
 	if Global.has_item("knife") and Global.has_item("bread") and not has_sandwich:
 		sandwich_panel.visible = true
 
@@ -89,7 +88,6 @@ func _on_exit_door_pressed():
 		complete_level()
 	else:
 		show_message("门卫说：给我弄点吃的我才让你走")
-		# Shake effect
 		var tween = create_tween()
 		var orig = $ExitDoor.position
 		for i in range(3):
@@ -101,4 +99,4 @@ func complete_level():
 	show_message("恭喜通关！", 2.0)
 	await get_tree().create_timer(2.0).timeout
 	Global.next_level()
-	get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+	get_tree().reload_current_scene()

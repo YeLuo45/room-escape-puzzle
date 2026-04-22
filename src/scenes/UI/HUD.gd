@@ -10,7 +10,7 @@ var current_message_time: float = 0.0
 func _ready():
 	level_name.text = Global.get_level_display_name(Global.current_level)
 	hint_btn.text = "提示(" + str(Global.hints_remaining) + ")"
-	
+
 	Global.level_changed.connect(_on_level_changed)
 	Global.hint_used.connect(_on_hint_used)
 
@@ -25,6 +25,7 @@ func set_hints(hints: Array[String]):
 
 func show_message(msg: String, duration: float = 3.0):
 	message_label.text = msg
+	message_label.visible = true
 	current_message_time = duration
 
 func _on_level_changed(level_id: String):
