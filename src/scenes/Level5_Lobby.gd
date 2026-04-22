@@ -52,7 +52,7 @@ func _on_pedestal_pressed():
 
 func _on_painting_pressed():
 	painting_checked = true
-	show_message("挂画后面写着："时间的顺序，315"。这似乎是密码提示...")
+	show_message("挂画后面写着：'时间的顺序，315'。这似乎是密码提示...")
 
 func _on_clock_pressed():
 	if coin_used:
