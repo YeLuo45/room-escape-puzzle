@@ -79,16 +79,9 @@ jobs:
           name: web_build
           path: bin/web/
 
-  deploy-gh-pages:
+  deploy-netlify:
     needs: build-web
     runs-on: ubuntu-22.04
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -99,14 +92,25 @@ jobs:
           name: web_build
           path: dist/
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
         with:
-          path: dist/
+          publish-dir: ./dist
+          production-deploy: true
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Set COOP/COEP headers
+        run: |
+          # Configure headers via Netlify API after deployment
+          DEPLOY_ID=$(curl -s "https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}/deploys" \
+            -H "Authorization: Bearer ${{ secrets.NETLIFY_AUTH_TOKEN }}" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print(d[0]['id'])")
+          echo "Deploy ID: $DEPLOY_ID"
+      shell: bash
