@@ -1,17 +1,17 @@
 extends Node2D
 
-var diary_found: bool = false
-var diary_opened: bool = false
-var diary_unlocked: bool = false
-var coin_found: bool = false
-var correct_password: String = "0618"
+var diary_found = false
+var diary_opened = false
+var diary_unlocked = false
+var coin_found = false
+var correct_password = "0618"
 
-@onready var diary_panel = $Diary
-@onready var diary_open_panel = $DiaryOpen
-@onready var coin_panel = $Coin
-@onready var password_input = $PasswordInput
-@onready var hint_btn = $HintBtn
-@onready var message_label = $MessageLabel
+onready var diary_panel = $Diary
+onready var diary_open_panel = $DiaryOpen
+onready var coin_panel = $Coin
+onready var password_input = $PasswordInput
+onready var hint_btn = $HintBtn
+onready var message_label = $MessageLabel
 
 var hint_texts = [
 	"书桌上好像有什么东西...",
@@ -20,10 +20,10 @@ var hint_texts = [
 ]
 
 var current_hint_idx = 0
-var msg_timer: float = 0.0
+var msg_timer = 0.0
 
 func _ready():
-	Global.inventory_updated.connect(_on_inventory_updated)
+	Global.connect("inventory_updated", self, "_on_inventory_updated")
 
 func _process(delta):
 	if msg_timer > 0:
@@ -31,7 +31,7 @@ func _process(delta):
 		if msg_timer <= 0:
 			message_label.visible = false
 
-func show_message(msg: String, duration: float = 3.0):
+func show_message(msg, duration = 3.0):
 	message_label.text = msg
 	message_label.visible = true
 	msg_timer = duration
@@ -69,12 +69,14 @@ func _on_unlock_pressed():
 		show_message("日记解锁成功！里面提到书架后面藏着什么...")
 	else:
 		show_message("密码错误！")
-		var tween = create_tween()
+		var tween = Tween.new()
+		add_child(tween)
 		var orig = password_input.position
 		for i in range(3):
-			tween.tween_property(password_input, "position:x", orig.x + 10, 0.05)
-			tween.tween_property(password_input, "position:x", orig.x - 10, 0.05)
-		tween.tween_property(password_input, "position:x", orig.x, 0.05)
+			tween.interpolate_property(password_input, "position:x", orig.x + 10, 0.05)
+			tween.interpolate_property(password_input, "position:x", orig.x - 10, 0.05)
+		tween.interpolate_property(password_input, "position:x", orig.x, 0.05)
+		tween.start()
 
 func _on_coin_pressed():
 	coin_panel.visible = false
@@ -95,19 +97,21 @@ func _on_inventory_updated():
 func _on_exit_door_pressed():
 	if Global.has_item("coin"):
 		show_message("硬币投入门锁，门开了！")
-		await get_tree().create_timer(1.0).timeout
+		yield(get_tree().create_timer(1.0), "timeout")
 		complete_level()
 	else:
 		show_message("门锁需要硬币才能打开")
-		var tween = create_tween()
+		var tween = Tween.new()
+		add_child(tween)
 		var orig = $ExitDoor.position
 		for i in range(3):
-			tween.tween_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
-			tween.tween_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
-		tween.tween_property($ExitDoor, "position", orig, 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
+		tween.interpolate_property($ExitDoor, "position", orig, 0.05)
+		tween.start()
 
 func complete_level():
 	show_message("恭喜通关！", 2.0)
-	await get_tree().create_timer(2.0).timeout
+	yield(get_tree().create_timer(2.0), "timeout")
 	Global.next_level()
 	get_tree().reload_current_scene()

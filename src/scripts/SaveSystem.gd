@@ -19,7 +19,7 @@ func save_game():
 		save_file.store_line(JSON.stringify(data))
 		save_file.close()
 
-func load_game() -> bool:
+func load_game():
 	if not FileAccess.file_exists(SAVE_PATH):
 		return false
 	
@@ -53,7 +53,7 @@ func load_game() -> bool:
 	
 	return true
 
-func has_save() -> bool:
+func has_save():
 	return FileAccess.file_exists(SAVE_PATH)
 
 func delete_save():

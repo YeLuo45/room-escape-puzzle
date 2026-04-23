@@ -5,11 +5,11 @@ const SLOT_SIZE = 80
 
 var slot_buttons = []
 var slot_items = []
-var selected_slot: int = -1
+var selected_slot = -1
 var combination_system = null
 
-@onready var grid = $Panel/Grid
-@onready var item_label = $ItemLabel
+onready var grid = $Panel/Grid
+onready var item_label = $ItemLabel
 
 func _ready():
 	combination_system = get_node_or_null("/root/CombinationSystem")
@@ -18,12 +18,13 @@ func _ready():
 		var btn = grid.get_child(i)
 		slot_buttons.append(btn)
 		slot_items.append(null)
-		btn.pressed.connect(_on_slot_pressed.bind(i))
-		btn.mouse_entered.connect(_on_slot_hover.bind(i))
-		btn.mouse_exited.connect(_on_slot_exit)
+		btn.set_meta("slot_index", i)
+		btn.connect("pressed", self, "_on_slot_pressed", [i])
+		btn.connect("mouse_entered", self, "_on_slot_hover", [i])
+		btn.connect("mouse_exited", self, "_on_slot_exit")
 
-	Global.inventory_updated.connect(_on_inventory_updated)
-	Global.item_selected.connect(_on_item_selected)
+	Global.connect("inventory_updated", self, "_on_inventory_updated")
+	Global.connect("item_selected", self, "_on_item_selected")
 
 	refresh_all_slots()
 
@@ -52,16 +53,16 @@ func refresh_all_slots():
 
 			var label = Label.new()
 			label.text = item.name
-			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+			label.set_align(Label.ALIGN_CENTER)
+			label.set_valign(Label.VALIGN_BOTTOM)
 			label.position = Vector2(0, SLOT_SIZE - 20)
 			label.size = Vector2(SLOT_SIZE, 20)
-			label.add_theme_font_size_override("font_size", 12)
+			label.add_font_override("font", null)
 			btn.add_child(label)
 		else:
 			btn.tooltip_text = ""
 
-func _on_slot_pressed(slot_idx: int):
+func _on_slot_pressed(slot_idx):
 	if slot_idx >= Global.inventory.size():
 		return
 
@@ -83,7 +84,7 @@ func _on_slot_pressed(slot_idx: int):
 	else:
 		Global.select_item(item)
 
-func _on_slot_hover(slot_idx: int):
+func _on_slot_hover(slot_idx):
 	if slot_idx < Global.inventory.size():
 		var item = Global.inventory[slot_idx]
 		item_label.text = item.name + ": " + item.description

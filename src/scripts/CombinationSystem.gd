@@ -1,18 +1,18 @@
 extends Node
 
 # Combination recipes: "item_a_id + item_b_id" -> result_item_id
-var recipes: Dictionary = {
+var recipes = {
 	"knife + bread": "sandwich",
 	"torch + lever": "lit_lever",
 }
 
-static func get_recipe_key(id_a: String, id_b: String) -> String:
+static func get_recipe_key(id_a, id_b):
 	if id_a < id_b:
 		return id_a + " + " + id_b
 	else:
 		return id_b + " + " + id_a
 
-func can_combine(item_a, item_b) -> bool:
+func can_combine(item_a, item_b):
 	var key = get_recipe_key(item_a.id, item_b.id)
 	return recipes.has(key)
 

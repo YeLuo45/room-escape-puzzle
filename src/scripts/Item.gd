@@ -1,7 +1,7 @@
 extends Resource
 class_name Item
 
-@export var id: String = ""
-@export var name: String = ""
-@export var description: String = ""
-@export var color: Color = Color.WHITE
+export var id = ""
+export var name = ""
+export var description = ""
+export var color = Color.white

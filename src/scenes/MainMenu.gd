@@ -1,9 +1,9 @@
 extends Control
 
-@onready var continue_btn = $VBox/ContinueBtn
-@onready var settings_panel = $SettingsPanel
-@onready var audio_check = $SettingsPanel/VBox/AudioRow/AudioCheck
-@onready var music_check = $SettingsPanel/VBox/MusicRow/MusicCheck
+onready var continue_btn = $VBox/ContinueBtn
+onready var settings_panel = $SettingsPanel
+onready var audio_check = $SettingsPanel/VBox/AudioRow/AudioCheck
+onready var music_check = $SettingsPanel/VBox/MusicRow/MusicCheck
 
 func _ready():
 	continue_btn.visible = SaveSystem.has_save()
@@ -13,11 +13,11 @@ func _ready():
 
 func _on_start_pressed():
 	Global.reset_game()
-	get_tree().change_scene_to_file("res://src/scenes/Level1_Bedroom.tscn")
+	get_tree().change_scene("res://src/scenes/Level1_Bedroom.tscn")
 
 func _on_continue_pressed():
 	if SaveSystem.load_game():
-		get_tree().change_scene_to_file("res://src/scenes/" + Global.current_level + ".tscn")
+		get_tree().change_scene("res://src/scenes/" + Global.current_level + ".tscn")
 
 func _on_settings_pressed():
 	settings_panel.visible = true

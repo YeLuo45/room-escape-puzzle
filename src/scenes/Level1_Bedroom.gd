@@ -1,13 +1,13 @@
 extends Node2D
 
-var drawer_opened: bool = false
-var has_key: bool = false
+var drawer_opened = false
+var has_key = false
 
-@onready var key_panel = $Key
-@onready var drawer_panel = $Drawer
-@onready var door_panel = $Door
-@onready var hint_btn = $HintBtn
-@onready var message_label = $MessageLabel
+onready var key_panel = $Key
+onready var drawer_panel = $Drawer
+onready var door_panel = $Door
+onready var hint_btn = $HintBtn
+onready var message_label = $MessageLabel
 
 var hint_texts = [
 	"床头柜似乎可以打开...",
@@ -16,11 +16,11 @@ var hint_texts = [
 ]
 
 var current_hint_idx = 0
-var msg_timer: float = 0.0
+var msg_timer = 0.0
 
 func _ready():
 	hint_btn.text = "提示(" + str(Global.hints_remaining) + ")"
-	Global.inventory_updated.connect(_on_inventory_updated)
+	Global.connect("inventory_updated", self, "_on_inventory_updated")
 
 func _process(delta):
 	if msg_timer > 0:
@@ -28,7 +28,7 @@ func _process(delta):
 		if msg_timer <= 0:
 			message_label.visible = false
 
-func show_message(msg: String, duration: float = 3.0):
+func show_message(msg, duration = 3.0):
 	message_label.text = msg
 	message_label.visible = true
 	msg_timer = duration
@@ -52,16 +52,22 @@ func _on_key_pressed():
 func _on_door_pressed():
 	if Global.has_item("key"):
 		show_message("钥匙打开了门！")
-		await get_tree().create_timer(1.0).timeout
+		yield(get_tree().create_timer(1.0), "timeout")
 		complete_level()
 	else:
 		show_message("门锁着，需要找到钥匙")
-		var tween = create_tween()
-		var orig = door_panel.position
-		for i in range(3):
-			tween.tween_property(door_panel, "position", orig + Vector2(10, 0), 0.05)
-			tween.tween_property(door_panel, "position", orig + Vector2(-10, 0), 0.05)
-		tween.tween_property(door_panel, "position", orig, 0.05)
+		shake_door()
+
+func shake_door():
+	var tween = Tween.new()
+	add_child(tween)
+	var orig = door_panel.position
+	for i in range(3):
+		tween.interpolate_property(door_panel, "position:x", orig.x + 10, 0.05)
+		tween.interpolate_property(door_panel, "position:x", orig.x - 10, 0.05)
+	tween.interpolate_property(door_panel, "position:x", orig.x, 0.05)
+	tween.start()
+	yield(get_tree().create_timer(0.05), "timeout")
 
 func _on_hint_pressed():
 	if Global.hints_remaining > 0 and current_hint_idx < hint_texts.size():
@@ -75,6 +81,6 @@ func _on_inventory_updated():
 
 func complete_level():
 	show_message("恭喜通关！", 2.0)
-	await get_tree().create_timer(2.0).timeout
+	yield(get_tree().create_timer(2.0), "timeout")
 	Global.next_level()
 	get_tree().reload_current_scene()

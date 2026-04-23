@@ -24,5 +24,5 @@ func _ready():
 		if item:
 			_items_cache[item_id] = item
 
-func get_item(id: String):
+func get_item(id):
 	return _items_cache.get(id)

@@ -1,16 +1,16 @@
 extends Node2D
 
-var cabinet_opened: bool = false
-var has_knife: bool = false
-var has_bread: bool = false
-var has_sandwich: bool = false
+var cabinet_opened = false
+var has_knife = false
+var has_bread = false
+var has_sandwich = false
 
-@onready var knife_panel = $Knife
-@onready var bread_panel = $Bread
-@onready var sandwich_panel = $Sandwich
-@onready var cabinet_panel = $Cabinet
-@onready var hint_btn = $HintBtn
-@onready var message_label = $MessageLabel
+onready var knife_panel = $Knife
+onready var bread_panel = $Bread
+onready var sandwich_panel = $Sandwich
+onready var cabinet_panel = $Cabinet
+onready var hint_btn = $HintBtn
+onready var message_label = $MessageLabel
 
 var hint_texts = [
 	"橱柜里似乎有东西...",
@@ -19,10 +19,10 @@ var hint_texts = [
 ]
 
 var current_hint_idx = 0
-var msg_timer: float = 0.0
+var msg_timer = 0.0
 
 func _ready():
-	Global.inventory_updated.connect(_on_inventory_updated)
+	Global.connect("inventory_updated", self, "_on_inventory_updated")
 
 func _process(delta):
 	if msg_timer > 0:
@@ -30,7 +30,7 @@ func _process(delta):
 		if msg_timer <= 0:
 			message_label.visible = false
 
-func show_message(msg: String, duration: float = 3.0):
+func show_message(msg, duration = 3.0):
 	message_label.text = msg
 	message_label.visible = true
 	msg_timer = duration
@@ -84,19 +84,21 @@ func _on_inventory_updated():
 func _on_exit_door_pressed():
 	if Global.has_item("sandwich"):
 		show_message("门卫收下了三明治，让你通过了！")
-		await get_tree().create_timer(1.0).timeout
+		yield(get_tree().create_timer(1.0), "timeout")
 		complete_level()
 	else:
 		show_message("门卫说：给我弄点吃的我才让你走")
-		var tween = create_tween()
+		var tween = Tween.new()
+		add_child(tween)
 		var orig = $ExitDoor.position
 		for i in range(3):
-			tween.tween_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
-			tween.tween_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
-		tween.tween_property($ExitDoor, "position", orig, 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
+		tween.interpolate_property($ExitDoor, "position", orig, 0.05)
+		tween.start()
 
 func complete_level():
 	show_message("恭喜通关！", 2.0)
-	await get_tree().create_timer(2.0).timeout
+	yield(get_tree().create_timer(2.0), "timeout")
 	Global.next_level()
 	get_tree().reload_current_scene()

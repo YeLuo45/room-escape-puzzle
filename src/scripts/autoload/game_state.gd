@@ -1,7 +1,7 @@
 extends Node
 
-var current_level: int = 0
-var inventory: Array = []
+var current_level = 0
+var inventory = []
 
-func _ready() -> void:
+func _ready():
 	print("GameState loaded")

@@ -1,16 +1,16 @@
 extends Node2D
 
-var coin_used: bool = false
-var painting_checked: bool = false
-var clock_checked: bool = false
-var keypad_visible: bool = false
-var door_unlocked: bool = false
+var coin_used = false
+var painting_checked = false
+var clock_checked = false
+var keypad_visible = false
+var door_unlocked = false
 
-@onready var keypad_input = $KeypadInput
-@onready var keypad_submit = $KeypadSubmit
-@onready var keypad_cancel = $KeypadCancel
-@onready var hint_btn = $HintBtn
-@onready var message_label = $MessageLabel
+onready var keypad_input = $KeypadInput
+onready var keypad_submit = $KeypadSubmit
+onready var keypad_cancel = $KeypadCancel
+onready var hint_btn = $HintBtn
+onready var message_label = $MessageLabel
 
 var hint_texts = [
 	"硬币可以放入基座...",
@@ -19,10 +19,10 @@ var hint_texts = [
 ]
 
 var current_hint_idx = 0
-var msg_timer: float = 0.0
+var msg_timer = 0.0
 
 func _ready():
-	Global.inventory_updated.connect(_on_inventory_updated)
+	Global.connect("inventory_updated", self, "_on_inventory_updated")
 
 func _process(delta):
 	if msg_timer > 0:
@@ -30,7 +30,7 @@ func _process(delta):
 		if msg_timer <= 0:
 			message_label.visible = false
 
-func show_message(msg: String, duration: float = 3.0):
+func show_message(msg, duration = 3.0):
 	message_label.text = msg
 	message_label.visible = true
 	msg_timer = duration
@@ -93,12 +93,14 @@ func _on_keypad_submit_pressed():
 		$ExitDoor.tooltip_text = "出口大门(已解锁)"
 	else:
 		show_message("密码错误！")
-		var tween = create_tween()
+		var tween = Tween.new()
+		add_child(tween)
 		var orig = keypad_input.position
 		for i in range(3):
-			tween.tween_property(keypad_input, "position:x", orig.x + 10, 0.05)
-			tween.tween_property(keypad_input, "position:x", orig.x - 10, 0.05)
-		tween.tween_property(keypad_input, "position:x", orig.x, 0.05)
+			tween.interpolate_property(keypad_input, "position:x", orig.x + 10, 0.05)
+			tween.interpolate_property(keypad_input, "position:x", orig.x - 10, 0.05)
+		tween.interpolate_property(keypad_input, "position:x", orig.x, 0.05)
+		tween.start()
 		keypad_input.text = ""
 
 func _on_hint_pressed():
@@ -114,13 +116,15 @@ func _on_inventory_updated():
 func _on_exit_door_pressed():
 	if door_unlocked:
 		show_message("恭喜你逃出了房间！游戏通关！", 4.0)
-		await get_tree().create_timer(2.0).timeout
-		get_tree().change_scene_to_file("res://src/scenes/MainMenu.tscn")
+		yield(get_tree().create_timer(2.0), "timeout")
+		get_tree().change_scene("res://src/scenes/MainMenu.tscn")
 	else:
 		show_message("门是锁着的，需要密码")
-		var tween = create_tween()
+		var tween = Tween.new()
+		add_child(tween)
 		var orig = $ExitDoor.position
 		for i in range(3):
-			tween.tween_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
-			tween.tween_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
-		tween.tween_property($ExitDoor, "position", orig, 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(10, 0), 0.05)
+			tween.interpolate_property($ExitDoor, "position", orig + Vector2(-10, 0), 0.05)
+		tween.interpolate_property($ExitDoor, "position", orig, 0.05)
+		tween.start()
