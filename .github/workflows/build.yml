@@ -92,6 +92,9 @@ jobs:
           name: web_build
           path: dist/
 
+      - name: Copy netlify.toml for headers
+        run: cp netlify.toml dist/
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -105,23 +108,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 5
-
-      - name: Set COOP/COEP headers
-        run: |
-          curl -s -X PUT "https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}" \
-            -H "Authorization: Bearer ${{ secrets.NETLIFY_AUTH_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "build_settings": {
-                "headers": [
-                  {
-                    "path": "/*",
-                    "headers": [
-                      {"name": "Cross-Origin-Opener-Policy", "value": "same-origin"},
-                      {"name": "Cross-Origin-Embedder-Policy", "value": "require-corp"},
-                      {"name": "Cross-Origin-Resource-Policy", "value": "cross-origin"}
-                    ]
-                  }
-                ]
-              }
-            }'
