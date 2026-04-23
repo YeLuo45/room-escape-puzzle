@@ -15,18 +15,18 @@ jobs:
         include:
           - os: ubuntu-22.04
             artifact_name: linux_x86_64
-            godot_binary: Godot_v4.2.2-stable_linux.x86_64
-            godot_archive: Godot_v4.2.2-stable_linux.x86_64.zip
+            godot_binary: Godot_v4.4.1-stable_linux.x86_64
+            godot_archive: Godot_v4.4.1-stable_linux.x86_64.zip
             preset_name: Linux
           - os: windows-2022
             artifact_name: windows_x86_64.exe
-            godot_binary: Godot_v4.2.2-stable_win64.exe
-            godot_archive: Godot_v4.2.2-stable_win64.exe.zip
+            godot_binary: Godot_v4.4.1-stable_win64.exe
+            godot_archive: Godot_v4.4.1-stable_win64.exe.zip
             preset_name: Windows
           - os: macos-14
             artifact_name: macos_arm64.zip
             godot_binary: Godot.app
-            godot_archive: Godot_v4.2.2-stable_macos.universal.zip
+            godot_archive: Godot_v4.4.1-stable_macos.universal.zip
             preset_name: macOS
 
     steps:
@@ -35,7 +35,7 @@ jobs:
 
       - name: Download Godot
         run: |
-          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/${{ matrix.godot_archive }} -o ${{ matrix.godot_archive }}
+          curl -sL https://github.com/godotengine/godot/releases/download/4.4.1-stable/${{ matrix.godot_archive }} -o ${{ matrix.godot_archive }}
           unzip -o -q ${{ matrix.godot_archive }}
 
       - name: Build Export
@@ -57,21 +57,21 @@ jobs:
 
       - name: Download Godot
         run: |
-          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip -o Godot_v4.2.2-stable_linux.x86_64.zip
-          unzip -o -q Godot_v4.2.2-stable_linux.x86_64.zip
-          chmod +x Godot_v4.2.2-stable_linux.x86_64
+          curl -sL https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip -o Godot_v4.4.1-stable_linux.x86_64.zip
+          unzip -o -q Godot_v4.4.1-stable_linux.x86_64.zip
+          chmod +x Godot_v4.4.1-stable_linux.x86_64
 
       - name: Download Export Templates
         run: |
-          curl -sL https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz -o Godot_v4.2.2-stable_export_templates.tpz
-          mkdir -p ~/.local/share/godot/export_templates/4.2.2.stable/
-          unzip -o -q Godot_v4.2.2-stable_export_templates.tpz -d /tmp/templates
-          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.2.2.stable/
+          curl -sL https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz -o Godot_v4.4.1-stable_export_templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates/4.4.1.stable/
+          unzip -o -q Godot_v4.4.1-stable_export_templates.tpz -d /tmp/templates
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.4.1.stable/
 
       - name: Build Web Export
         run: |
           mkdir -p bin/web
-          ./Godot_v4.2.2-stable_linux.x86_64 --headless --export-release "Web" bin/web/index.html
+          ./Godot_v4.4.1-stable_linux.x86_64 --headless --export-release "Web" bin/web/index.html
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -100,7 +100,7 @@ jobs:
         with:
           publish-dir: ./dist
           production-deploy: true
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: "Deploy from GitHub Actions (Godot 4.4.1)"
           enable-pull-request-comment: false
           enable-commit-comment: false
           overwrites-pull-request-comment: false
