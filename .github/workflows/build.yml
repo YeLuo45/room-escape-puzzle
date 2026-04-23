@@ -108,9 +108,20 @@ jobs:
 
       - name: Set COOP/COEP headers
         run: |
-          # Configure headers via Netlify API after deployment
-          DEPLOY_ID=$(curl -s "https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}/deploys" \
+          curl -s -X PUT "https://api.netlify.com/api/v1/sites/${{ secrets.NETLIFY_SITE_ID }}" \
             -H "Authorization: Bearer ${{ secrets.NETLIFY_AUTH_TOKEN }}" \
-            | python3 -c "import sys,json; d=json.load(sys.stdin); print(d[0]['id'])")
-          echo "Deploy ID: $DEPLOY_ID"
-      shell: bash
+            -H "Content-Type: application/json" \
+            -d '{
+              "build_settings": {
+                "headers": [
+                  {
+                    "path": "/*",
+                    "headers": [
+                      {"name": "Cross-Origin-Opener-Policy", "value": "same-origin"},
+                      {"name": "Cross-Origin-Embedder-Policy", "value": "require-corp"},
+                      {"name": "Cross-Origin-Resource-Policy", "value": "cross-origin"}
+                    ]
+                  }
+                ]
+              }
+            }'
